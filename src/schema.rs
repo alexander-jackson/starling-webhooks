@@ -1,4 +1,4 @@
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, NaiveDate, Utc};
 use uuid::Uuid;
 
 #[derive(Debug, Deserialize)]
@@ -8,6 +8,15 @@ pub struct WebhookFeedItem {
     event_timestamp: DateTime<Utc>,
     account_holder_uid: Uuid,
     content: FeedItem,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct WebhookStandingOrderPayment {
+    webhook_event_uid: Uuid,
+    event_timestamp: DateTime<Utc>,
+    account_holder_uid: Uuid,
+    content: StandingOrderPayment,
 }
 
 #[derive(Debug, Deserialize)]
@@ -43,6 +52,43 @@ pub struct FeedItem {
     has_attachment: bool,
     receipt_present: bool,
     master_card_feed_details: MasterCardFeedDetails,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct StandingOrderPayment {
+    payment_order: PaymentOrder,
+    success: bool,
+    reason: String,
+    payment_uid: Uuid,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PaymentOrder {
+    payment_order_uid: Uuid,
+    category_uid: Uuid,
+    amount: CurrencyAndAmount,
+    reference: String,
+    payee_uid: Uuid,
+    payee_account_uid: Uuid,
+    payment_order_recurrance: Option<StandingOrderRecurrance>,
+    processed_immediately: bool,
+    next_date: NaiveDate,
+    cancelled_at: DateTime<Utc>,
+    updated_at: DateTime<Utc>,
+    spending_category: Option<SpendingCategory>,
+    standing_order_recurrance: Option<StandingOrderRecurrance>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct StandingOrderRecurrance {
+    start_date: NaiveDate,
+    frequency: Option<Frequency>,
+    interval: Option<i32>,
+    count: Option<i32>,
+    until_date: NaiveDate,
 }
 
 #[derive(Debug, Deserialize)]
@@ -747,4 +793,13 @@ pub enum FeedItemFailureReason {
     PinTriesExceeded,
     CvcTriesExceeded,
     SuspiciousCardTransaction,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum Frequency {
+    Daily,
+    Weekly,
+    Monthly,
+    Yearly,
 }
