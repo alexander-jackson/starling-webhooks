@@ -4,133 +4,133 @@ use uuid::Uuid;
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WebhookFeedItem {
-    webhook_event_uid: Uuid,
-    event_timestamp: DateTime<Utc>,
-    account_holder_uid: Uuid,
-    content: FeedItem,
+    pub webhook_event_uid: Uuid,
+    pub event_timestamp: DateTime<Utc>,
+    pub account_holder_uid: Uuid,
+    pub content: FeedItem,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WebhookStandingOrderPayment {
-    webhook_event_uid: Uuid,
-    event_timestamp: DateTime<Utc>,
-    account_holder_uid: Uuid,
-    content: StandingOrderPayment,
+    pub webhook_event_uid: Uuid,
+    pub event_timestamp: DateTime<Utc>,
+    pub account_holder_uid: Uuid,
+    pub content: StandingOrderPayment,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WebhookStandingOrder {
-    webhook_event_uid: Uuid,
-    event_timestamp: DateTime<Utc>,
-    account_holder_uid: Uuid,
-    content: PaymentOrder,
+    pub webhook_event_uid: Uuid,
+    pub event_timestamp: DateTime<Utc>,
+    pub account_holder_uid: Uuid,
+    pub content: PaymentOrder,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct FeedItem {
-    feed_item_uid: Uuid,
-    category_uid: Uuid,
-    account_uid: Uuid,
-    amount: CurrencyAndAmount,
-    source_amount: CurrencyAndAmount,
-    direction: Direction,
-    updated_at: DateTime<Utc>,
-    transaction_time: DateTime<Utc>,
-    settlement_time: DateTime<Utc>,
-    source: Source,
-    source_sub_type: SourceSubtype,
-    status: Status,
-    transacting_application_user_uid: Uuid,
-    counter_party_type: CounterPartyType,
-    counter_party_uid: Uuid,
-    counter_party_name: String,
-    counter_party_sub_entity_uid: Uuid,
-    counter_party_sub_entity_name: String,
-    counter_party_sub_entity_identifier: String,
-    counter_party_sub_entity_sub_identifier: String,
-    exchange_rate: f64,
-    total_fee_amount: CurrencyAndAmount,
-    reference: String,
-    country: Country,
-    spending_category: SpendingCategory,
-    user_note: String,
-    round_up: AssociatedFeedRoundUp,
-    has_attachment: bool,
-    receipt_present: bool,
-    master_card_feed_details: MasterCardFeedDetails,
+    pub feed_item_uid: Uuid,
+    pub category_uid: Uuid,
+    pub account_uid: Uuid,
+    pub amount: CurrencyAndAmount,
+    pub source_amount: CurrencyAndAmount,
+    pub direction: Direction,
+    pub updated_at: DateTime<Utc>,
+    pub transaction_time: DateTime<Utc>,
+    pub settlement_time: DateTime<Utc>,
+    pub source: Source,
+    pub source_sub_type: SourceSubtype,
+    pub status: Status,
+    pub transacting_application_user_uid: Uuid,
+    pub counter_party_type: CounterPartyType,
+    pub counter_party_uid: Uuid,
+    pub counter_party_name: String,
+    pub counter_party_sub_entity_uid: Uuid,
+    pub counter_party_sub_entity_name: String,
+    pub counter_party_sub_entity_identifier: String,
+    pub counter_party_sub_entity_sub_identifier: String,
+    pub exchange_rate: f64,
+    pub total_fee_amount: CurrencyAndAmount,
+    pub reference: String,
+    pub country: Country,
+    pub spending_category: SpendingCategory,
+    pub user_note: String,
+    pub round_up: AssociatedFeedRoundUp,
+    pub has_attachment: bool,
+    pub receipt_present: bool,
+    pub master_card_feed_details: MasterCardFeedDetails,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct StandingOrderPayment {
-    payment_order: PaymentOrder,
-    success: bool,
-    reason: String,
-    payment_uid: Uuid,
+    pub payment_order: PaymentOrder,
+    pub success: bool,
+    pub reason: String,
+    pub payment_uid: Uuid,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PaymentOrder {
-    payment_order_uid: Uuid,
-    category_uid: Uuid,
-    amount: CurrencyAndAmount,
-    reference: String,
-    payee_uid: Uuid,
-    payee_account_uid: Uuid,
-    payment_order_recurrance: Option<StandingOrderRecurrance>,
-    processed_immediately: bool,
-    next_date: NaiveDate,
-    cancelled_at: DateTime<Utc>,
-    updated_at: DateTime<Utc>,
-    spending_category: Option<SpendingCategory>,
-    standing_order_recurrance: Option<StandingOrderRecurrance>,
+    pub payment_order_uid: Uuid,
+    pub category_uid: Uuid,
+    pub amount: CurrencyAndAmount,
+    pub reference: String,
+    pub payee_uid: Uuid,
+    pub payee_account_uid: Uuid,
+    pub payment_order_recurrance: Option<StandingOrderRecurrance>,
+    pub processed_immediately: bool,
+    pub next_date: NaiveDate,
+    pub cancelled_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
+    pub spending_category: Option<SpendingCategory>,
+    pub standing_order_recurrance: Option<StandingOrderRecurrance>,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct StandingOrderRecurrance {
-    start_date: NaiveDate,
-    frequency: Option<Frequency>,
-    interval: Option<i32>,
-    count: Option<i32>,
-    until_date: NaiveDate,
+    pub start_date: NaiveDate,
+    pub frequency: Option<Frequency>,
+    pub interval: Option<i32>,
+    pub count: Option<i32>,
+    pub until_date: NaiveDate,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CurrencyAndAmount {
-    currency: Currency,
-    minor_units: i64,
+    pub currency: Currency,
+    pub minor_units: i64,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AssociatedFeedRoundUp {
-    goal_category_uid: Uuid,
-    amount: CurrencyAndAmount,
+    pub goal_category_uid: Uuid,
+    pub amount: CurrencyAndAmount,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct MasterCardFeedDetails {
-    merchant_identifier: String,
-    mcc: i32,
-    pos_timestamp: LocalTime,
-    authorisation_code: String,
-    card_last_4: String,
+    pub merchant_identifier: String,
+    pub mcc: i32,
+    pub pos_timestamp: LocalTime,
+    pub authorisation_code: String,
+    pub card_last_4: String,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct LocalTime {
-    hour: i32,
-    minute: i32,
-    second: i32,
-    nano: i32,
+    pub hour: i32,
+    pub minute: i32,
+    pub second: i32,
+    pub nano: i32,
 }
 
 #[derive(Debug, Deserialize)]
