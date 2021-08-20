@@ -21,6 +21,15 @@ pub struct WebhookStandingOrderPayment {
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
+pub struct WebhookStandingOrder {
+    webhook_event_uid: Uuid,
+    event_timestamp: DateTime<Utc>,
+    account_holder_uid: Uuid,
+    content: PaymentOrder,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct FeedItem {
     feed_item_uid: Uuid,
     category_uid: Uuid,
