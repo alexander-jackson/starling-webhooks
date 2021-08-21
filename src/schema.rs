@@ -1,7 +1,7 @@
 use chrono::{DateTime, NaiveDate, Utc};
 use uuid::Uuid;
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct WebhookFeedItem {
     pub webhook_event_uid: Uuid,
@@ -10,7 +10,7 @@ pub struct WebhookFeedItem {
     pub content: FeedItem,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct WebhookStandingOrderPayment {
     pub webhook_event_uid: Uuid,
@@ -19,7 +19,7 @@ pub struct WebhookStandingOrderPayment {
     pub content: StandingOrderPayment,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct WebhookStandingOrder {
     pub webhook_event_uid: Uuid,
@@ -28,7 +28,7 @@ pub struct WebhookStandingOrder {
     pub content: PaymentOrder,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct FeedItem {
     pub feed_item_uid: Uuid,
@@ -63,7 +63,7 @@ pub struct FeedItem {
     pub master_card_feed_details: MasterCardFeedDetails,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct StandingOrderPayment {
     pub payment_order: PaymentOrder,
@@ -72,7 +72,7 @@ pub struct StandingOrderPayment {
     pub payment_uid: Uuid,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct PaymentOrder {
     pub payment_order_uid: Uuid,
@@ -90,7 +90,7 @@ pub struct PaymentOrder {
     pub standing_order_recurrance: Option<StandingOrderRecurrance>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct StandingOrderRecurrance {
     pub start_date: NaiveDate,
@@ -100,21 +100,21 @@ pub struct StandingOrderRecurrance {
     pub until_date: NaiveDate,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct CurrencyAndAmount {
     pub currency: Currency,
     pub minor_units: i64,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct AssociatedFeedRoundUp {
     pub goal_category_uid: Uuid,
     pub amount: CurrencyAndAmount,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct MasterCardFeedDetails {
     pub merchant_identifier: String,
@@ -124,7 +124,7 @@ pub struct MasterCardFeedDetails {
     pub card_last_4: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct LocalTime {
     pub hour: i32,
@@ -133,7 +133,7 @@ pub struct LocalTime {
     pub nano: i32,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 pub enum Currency {
     NDEFINED,
     AED,
@@ -323,14 +323,14 @@ pub enum Currency {
     ZWL,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "UPPERCASE")]
 pub enum Direction {
     In,
     Out,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum Source {
     BritishBusinessBankFees,
@@ -375,7 +375,7 @@ pub enum Source {
     OverdraftFee,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum SourceSubtype {
     Contactless,
@@ -411,7 +411,7 @@ pub enum SourceSubtype {
     FxTransferBetweenAccountHolders,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum Status {
     Upcoming,
@@ -424,7 +424,7 @@ pub enum Status {
     AccountCheck,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum CounterPartyType {
     Category,
@@ -437,7 +437,7 @@ pub enum CounterPartyType {
     Loan,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 pub enum Country {
     UNDEFINED,
     AC,
@@ -711,7 +711,7 @@ pub enum Country {
     ZW,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum SpendingCategory {
     BillsAndServices,
@@ -764,7 +764,7 @@ pub enum SpendingCategory {
     Dividends,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum FeedItemFailureReason {
     CardWalletLimit,
@@ -804,7 +804,7 @@ pub enum FeedItemFailureReason {
     SuspiciousCardTransaction,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum Frequency {
     Daily,
