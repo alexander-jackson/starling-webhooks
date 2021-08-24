@@ -1,0 +1,10 @@
+[package]
+name = "hyper-server"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+hyper = { version = "0.14.11", features = ["http1", "tcp", "server"] }
+serde_json = "1.0.66"
+starling-webhooks = { path = "../../" }
+tokio = { version = "1.10.0", features = ["macros", "rt-multi-thread"] }
