@@ -1,129 +1,218 @@
+//! Type definitions for dealing with Starling webhook payloads.
+
 use chrono::{DateTime, NaiveDate, Utc};
 use uuid::Uuid;
 
+/// Webhook payload dispatched in response to an event occurring
 #[derive(Clone, Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
-pub struct WebhookFeedItem {
+pub struct WebhookDispatchFeedItem {
+    /// Unique identifier representing an event occurring for an account holder
     pub webhook_event_uid: Uuid,
+    /// Timestamp indicating when the webhook event occurred
     pub event_timestamp: DateTime<Utc>,
+    /// An account holder for which an event has occurred
     pub account_holder_uid: Uuid,
+    /// An item from the account holders' transaction feed
     pub content: FeedItem,
 }
 
+/// Webhook payload dispatched in response to an event occurring
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
-pub struct WebhookStandingOrderPayment {
+pub struct WebhookDispatchPaymentOrderWebhookEventPayload {
+    /// Unique identifier representing an event occurring for an account holder
     pub webhook_event_uid: Uuid,
+    /// Timestamp indicating when the webhook event occurred
     pub event_timestamp: DateTime<Utc>,
+    /// An account holder for which an event has occurred
     pub account_holder_uid: Uuid,
-    pub content: StandingOrderPayment,
+    /// Webhook event payload indicating operation success or failure
+    pub content: PaymentOrderWebhookEventPayload,
 }
 
+/// Webhook payload dispatched in response to an event occurring
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
-pub struct WebhookStandingOrder {
+pub struct WebhookDispatchPaymentOrder {
+    /// Unique identifier representing an event occurring for an account holder
     pub webhook_event_uid: Uuid,
+    /// Timestamp indicating when the webhook event occurred
     pub event_timestamp: DateTime<Utc>,
+    /// An account holder for which an event has occurred
     pub account_holder_uid: Uuid,
+    /// A payment instruction to be carried out at a specific point in time
     pub content: PaymentOrder,
 }
 
+/// An item from the account holders' transaction feed
 #[derive(Clone, Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct FeedItem {
+    /// Unique identifier for this item
     pub feed_item_uid: Uuid,
+    /// The category on which the transaction happened
     pub category_uid: Uuid,
+    /// The account for which the transaction happened
     pub account_uid: Uuid,
+    /// Representation of money
     pub amount: CurrencyAndAmount,
+    /// Representation of money
     pub source_amount: CurrencyAndAmount,
+    /// Was this an inbound or outbound transaction
     pub direction: Direction,
+    /// The time the transaction was last updated at
     pub updated_at: DateTime<Utc>,
+    /// The time of the transaction
     pub transaction_time: DateTime<Utc>,
+    /// The time the transaction settled
     pub settlement_time: DateTime<Utc>,
+    /// The source of the transaction
     pub source: Source,
+    /// The source subtype of the transaction
     pub source_sub_type: SourceSubtype,
+    /// The status of the transaction
     pub status: Status,
+    /// The application user that made the transaction
     pub transacting_application_user_uid: Uuid,
+    /// The type of counter party for this transaction
     pub counter_party_type: CounterPartyType,
+    /// The unique identifier for the counter party
     pub counter_party_uid: Uuid,
+    /// The name of the counter party
     pub counter_party_name: String,
+    /// An identifier for the counter party sub entity
     pub counter_party_sub_entity_uid: Uuid,
+    /// A name for the counter party sub entity
     pub counter_party_sub_entity_name: String,
+    /// An external identifier for the sub entity
     pub counter_party_sub_entity_identifier: String,
+    /// An external sub identifier for the sub entity
     pub counter_party_sub_entity_sub_identifier: String,
+    /// The exchange rate applied between different currencies
     pub exchange_rate: f64,
+    /// Representation of money
     pub total_fee_amount: CurrencyAndAmount,
+    /// The reference for the transaction
     pub reference: String,
+    /// The country in which the transaction took place
     pub country: Country,
+    /// The category of the transaction
     pub spending_category: SpendingCategory,
+    /// The user-provided transaction note
     pub user_note: String,
+    /// Round up details associated with a feed item
     pub round_up: AssociatedFeedRoundUp,
+    /// Indicates whether an attachment exists for the feed item
     pub has_attachment: bool,
+    /// Indicates if a copy of the receipt is present
     pub receipt_present: bool,
-    pub master_card_feed_details: MasterCardFeedDetails,
+    /// Provides the failure reason for a failed transaction
+    pub feed_item_failure_reason: FeedItemFailureReason,
+    /// The MasterCard feed item details
+    pub master_card_feed_details: MasterCardFeedItemData,
 }
 
+/// Webhook event payload indicating operation success or failure
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
-pub struct StandingOrderPayment {
+pub struct PaymentOrderWebhookEventPayload {
+    /// A payment instruction to be carried out at a specific point in time
     pub payment_order: PaymentOrder,
+    /// Indicates if the payment was successful
     pub success: bool,
+    /// Provides the reported success or failure reason code
     pub reason: String,
+    /// Provides the payment uuid of the successful payment
     pub payment_uid: Uuid,
 }
 
+/// A payment instruction to be carried out at a specific point in time
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct PaymentOrder {
+    /// Unique identifier of this payment order
     pub payment_order_uid: Uuid,
+    /// Unique identifier of the category associated with this payment order
     pub category_uid: Uuid,
+    /// Representation of money
     pub amount: CurrencyAndAmount,
+    /// The reference set by the payer
     pub reference: String,
+    /// The ID of the payee receiving the payments
     pub payee_uid: Uuid,
+    /// The account ID of the payee account receiving the payments
     pub payee_account_uid: Uuid,
+    /// Recurrence rules of a standing order
     pub payment_order_recurrance: Option<StandingOrderRecurrance>,
+    /// Indicates if the payment order should process immediately or if this is a future dated
+    /// payment
     pub processed_immediately: bool,
+    /// Date on which the next standing order payment will be made
     pub next_date: NaiveDate,
+    /// The time the payment order is cancelled at
     pub cancelled_at: DateTime<Utc>,
+    /// The time the payment order is updated at
     pub updated_at: DateTime<Utc>,
+    /// Optional spending category for the payment order
     pub spending_category: Option<SpendingCategory>,
+    /// Recurrence rules of a standing order
     pub standing_order_recurrance: Option<StandingOrderRecurrance>,
 }
 
+/// Recurrence rules of a standing order
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct StandingOrderRecurrance {
+    /// Date that the first standing order payment should be made
     pub start_date: NaiveDate,
+    /// Frequency of which payments should be made
     pub frequency: Option<Frequency>,
+    /// Interval of specified frequency on which payments should be made
     pub interval: Option<i32>,
+    /// Number of payments that should be made before standing order is stopped
     pub count: Option<i32>,
+    /// Date on which to stop standing order
     pub until_date: NaiveDate,
 }
 
+/// Representation of money
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct CurrencyAndAmount {
+    /// ISO-4217 3 character currency code
     pub currency: Currency,
+    /// Amount in the minor units of the given currency
     pub minor_units: i64,
 }
 
+/// Round up details associated with a feed item
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct AssociatedFeedRoundUp {
+    /// Unique identifier of associated category
     pub goal_category_uid: Uuid,
+    /// Representation of money
     pub amount: CurrencyAndAmount,
 }
 
+/// The MasterCard feed item details
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
-pub struct MasterCardFeedDetails {
+pub struct MasterCardFeedItemData {
+    /// The identifier for the merchant
     pub merchant_identifier: String,
+    /// The category given by the merchant
     pub mcc: i32,
+    /// The point of sale timestamp
     pub pos_timestamp: LocalTime,
+    /// The authorisation code for the feed item
     pub authorisation_code: String,
+    /// The last 4 digits on the card
     pub card_last_4: String,
 }
 
+/// The point of sale timestamp
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct LocalTime {
@@ -133,6 +222,7 @@ pub struct LocalTime {
     pub nano: i32,
 }
 
+/// ISO-4217 3 character currency code
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 pub enum Currency {
     NDEFINED,
@@ -323,6 +413,7 @@ pub enum Currency {
     ZWL,
 }
 
+/// Was this an inbound or outbound transaction
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "UPPERCASE")]
 pub enum Direction {
@@ -330,6 +421,7 @@ pub enum Direction {
     Out,
 }
 
+/// The source of the transaction
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum Source {
@@ -375,6 +467,7 @@ pub enum Source {
     OverdraftFee,
 }
 
+/// The source subtype of the transaction
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum SourceSubtype {
@@ -411,6 +504,7 @@ pub enum SourceSubtype {
     FxTransferBetweenAccountHolders,
 }
 
+/// The status of the transaction
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum Status {
@@ -424,6 +518,7 @@ pub enum Status {
     AccountCheck,
 }
 
+/// The type of counter party for this transaction
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum CounterPartyType {
@@ -437,6 +532,7 @@ pub enum CounterPartyType {
     Loan,
 }
 
+/// The country in which the transaction took place
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 pub enum Country {
     UNDEFINED,
@@ -711,6 +807,7 @@ pub enum Country {
     ZW,
 }
 
+/// The category of the transaction
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum SpendingCategory {
@@ -764,6 +861,7 @@ pub enum SpendingCategory {
     Dividends,
 }
 
+/// Provides the failure reason for a failed transaction
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum FeedItemFailureReason {
@@ -804,8 +902,8 @@ pub enum FeedItemFailureReason {
     SuspiciousCardTransaction,
 }
 
+/// Frequency of which payments should be made
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
-#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum Frequency {
     Daily,
     Weekly,
