@@ -70,19 +70,19 @@ pub struct FeedItem {
     /// The source of the transaction
     pub source: Source,
     /// The source subtype of the transaction
-    pub source_sub_type: SourceSubtype,
+    pub source_sub_type: Option<SourceSubtype>,
     /// The status of the transaction
     pub status: Status,
     /// The application user that made the transaction
-    pub transacting_application_user_uid: Uuid,
+    pub transacting_application_user_uid: Option<Uuid>,
     /// The type of counter party for this transaction
     pub counter_party_type: CounterPartyType,
     /// The unique identifier for the counter party
-    pub counter_party_uid: Uuid,
+    pub counter_party_uid: Option<Uuid>,
     /// The name of the counter party
     pub counter_party_name: String,
     /// An identifier for the counter party sub entity
-    pub counter_party_sub_entity_uid: Uuid,
+    pub counter_party_sub_entity_uid: Option<Uuid>,
     /// A name for the counter party sub entity
     pub counter_party_sub_entity_name: String,
     /// An external identifier for the sub entity
@@ -90,9 +90,9 @@ pub struct FeedItem {
     /// An external sub identifier for the sub entity
     pub counter_party_sub_entity_sub_identifier: String,
     /// The exchange rate applied between different currencies
-    pub exchange_rate: f64,
+    pub exchange_rate: Option<f64>,
     /// Representation of money
-    pub total_fee_amount: CurrencyAndAmount,
+    pub total_fee_amount: Option<CurrencyAndAmount>,
     /// The reference for the transaction
     pub reference: String,
     /// The country in which the transaction took place
@@ -100,17 +100,17 @@ pub struct FeedItem {
     /// The category of the transaction
     pub spending_category: SpendingCategory,
     /// The user-provided transaction note
-    pub user_note: String,
+    pub user_note: Option<String>,
     /// Round up details associated with a feed item
-    pub round_up: AssociatedFeedRoundUp,
+    pub round_up: Option<AssociatedFeedRoundUp>,
     /// Indicates whether an attachment exists for the feed item
     pub has_attachment: bool,
     /// Indicates if a copy of the receipt is present
     pub receipt_present: bool,
     /// Provides the failure reason for a failed transaction
-    pub feed_item_failure_reason: FeedItemFailureReason,
+    pub feed_item_failure_reason: Option<FeedItemFailureReason>,
     /// The MasterCard feed item details
-    pub master_card_feed_details: MasterCardFeedItemData,
+    pub master_card_feed_details: Option<MasterCardFeedItemData>,
 }
 
 /// Webhook event payload indicating operation success or failure
